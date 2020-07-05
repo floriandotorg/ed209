@@ -1,0 +1,100 @@
+body {
+  font-family: monospace, monospace;
+  background: black;
+}
+
+$panel-background: rgba(black, 0.4);
+
+#joystick-canvas {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  z-index: 999;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  transform: rotate(180deg);
+}
+
+#stats {
+  position: fixed;
+  right: 0;
+  top: 0;
+  background: $panel-background;
+  color: white;
+  padding: 15px;
+  display: flex;
+
+  > .legend {
+    margin-right: 30px;
+  }
+
+  > .numbers {
+    min-width: 110px;
+    margin-right: 20px;
+  }
+
+  > div > p {
+    margin: 0;
+  }
+}
+
+.main-svg {
+  background: none !important;
+}
+
+#charts {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 20vw;
+  z-index: 9999;
+  background: $panel-background;
+
+  > .chart {
+    position: relative;
+
+    > h3 {
+      color: white;
+      font-size: 12px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    &:not(:first-child) {
+      margin-top: -5px;
+    }
+
+    > .js-plotly-plot {
+      height: 100px;
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  #root > div:first-child {
+    transform-origin: top right;
+    transform: scale(0.8);
+  }
+
+  #charts {
+    transform-origin: top left;
+    transform: scale(0.8);
+  }
+}
+
