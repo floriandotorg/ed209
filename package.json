@@ -17,13 +17,19 @@
     ]
   },
   "dependencies": {
+    "@welldone-software/why-did-you-render": "^4.2.5",
+    "classnames": "^2.2.6",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
+    "nipplejs": "^0.8.5",
+    "plotly.js-basic-dist": "^1.54.6",
     "raspberrypi-node-camera-web-streamer": "^1.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-plotly.js": "^2.4.0",
     "react-useinterval": "^1.0.1",
     "serialport": "^9.0.0",
+    "sscanf": "^0.8.0",
     "ws": "^7.3.0"
   },
   "devDependencies": {

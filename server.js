@@ -14,9 +14,9 @@ const videoStream = require('raspberrypi-node-camera-web-streamer')
 videoStream.acceptConnections(app, {
     width: 1280,
     height: 720,
-    fps: 25,
+    fps: 10,
     encoding: 'JPEG',
-    quality: 7
+    quality: 5
 }, '/stream.mjpg', false)
 
 const sockets = []
