@@ -23,14 +23,14 @@
     "lodash": "^4.17.15",
     "nipplejs": "^0.8.5",
     "plotly.js-basic-dist": "^1.54.6",
-    "raspberrypi-node-camera-web-streamer": "^1.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-plotly.js": "^2.4.0",
     "react-useinterval": "^1.0.1",
     "serialport": "^9.0.0",
     "sscanf": "^0.8.0",
-    "ws": "^7.3.0"
+    "ws": "^7.3.0",
+    "ws-avc-player": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",

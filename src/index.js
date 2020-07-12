@@ -15,3 +15,9 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 )
+
+import WSAvcPlayer from 'ws-avc-player'
+
+const wsavc = new WSAvcPlayer({useWorker:false})
+document.getElementById('video-box').appendChild(wsavc.AvcPlayer.canvas)
+wsavc.connect(`ws${location.protocol === 'https:' ? 's' : ''}://${location.host}/video`)

@@ -10,15 +10,6 @@ app.use(require('webpack-dev-middleware')(compiler, {
 }))
 app.use(require('webpack-hot-middleware')(compiler))
 
-const videoStream = require('raspberrypi-node-camera-web-streamer')
-videoStream.acceptConnections(app, {
-    width: 1280,
-    height: 720,
-    fps: 10,
-    encoding: 'JPEG',
-    quality: 5
-}, '/stream.mjpg', false)
-
 const sockets = []
 
 const SerialPort = require('serialport')
@@ -55,12 +46,48 @@ connect()
 
 const http = require('http')
 const server = http.createServer(app)
-const ws = require('ws')
-const wss = new ws.Server({ server })
 
+const ws = require('ws')
+const wss = new ws.Server({ noServer: true })
 wss.on('connection', (socket) => {
   socket.on('message', message => port.write(message))
   sockets.push(socket)
+})
+
+const video_width = 1280
+const video_height = 720
+
+const AvcServer = require('ws-avc-player/lib/server')
+const vwss = new ws.Server({ noServer: true })
+const avcServer = new AvcServer(vwss, video_width, video_height)
+
+const spawn = require('child_process').spawn
+const raspivid = spawn('raspivid', [ '-pf', 'baseline', '-ih', '-t', '0', '-w', video_width, '-h', video_height, '-hf', '-fps', '20', '-g', '30', '-o', '-' ])
+raspivid.on('exit', (code) => {
+  console.error('raspivid failed: ', code)
+})
+raspivid.on('close', () => {
+  console.error('raspivid failed')
+})
+
+avcServer.setVideoStream(raspivid.stdout)
+
+const url = require('url')
+
+server.on('upgrade', (request, socket, head) => {
+  const pathname = url.parse(request.url).pathname
+
+  if (pathname === '/video') {
+    vwss.handleUpgrade(request, socket, head, (ws) => {
+      vwss.emit('connection', ws, request)
+    })
+  } else if (pathname === '/cmd') {
+    wss.handleUpgrade(request, socket, head,(ws) => {
+      wss.emit('connection', ws, request)
+    })
+  } else {
+    socket.destroy()
+  }
 })
 
 server.listen(process.env.PORT || 3000, () => {
